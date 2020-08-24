@@ -12,18 +12,10 @@ ReactDOM.render(
 
   <BrowserRouter>
     <Switch>
-      <Route exact path='/' >
-        <App />
-      </Route>
-      <Route path='/Login'  >
-        <Login />
-      </Route>
-      <Route path='/Signup' >
-        <SignUp />
-      </Route>
-      <Route path='/Dashboard' >
-        <Dashboard />
-      </Route>
+      <Route exact path='/' render={() => <App />} />
+      <Route path='/Login' render={() => <Login />} />
+      <Route path='/Signup' render={() => <SignUp />} />
+      <Route path='/Dashboard' render={() => <Dashboard />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')
