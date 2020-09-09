@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@syncfusion/ej2-react-richtexteditor": "^18.2.55",
     "@syncfusion/ej2-react-schedule": "^18.2.54",
     "@types/draft-js": "^0.10.43",
     "@types/throttle-debounce": "^2.1.0",
@@ -27,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "main": "src/index.js",
+  "main": "src/index.tsx",
   "eslintConfig": {
     "extends": "react-app"
   },

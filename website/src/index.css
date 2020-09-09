@@ -4,7 +4,7 @@
 
 body {
   font-style: normal;
-  font-weight: bold;
+  font-weight: normal;
   text-align: center;
-  z-index: 0.4;
+  margin: 0;
 }

@@ -1,130 +1,98 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import EmailIcon from '@material-ui/icons/Email';
-import { List, ListItem } from '@material-ui/core';
-
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
+import { List, ListItem, Typography, Button, Chip, Grid, Popover } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    paper: {
-      position: 'absolute',
-      width: 800,
-      height: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
+    typography: {
+      margin: theme.spacing(2),
+      float: 'left',
     },
+    button: {
+      backgroundColor: 'green',
+    },
+    title: {
+      marginLeft: 13,
+      fontWeight: 'bold',
+      color: '#009688',
+      float: 'left',
+    }
   }),
 );
 
-export default function Email() {
+export default function Certdealer() {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setAnchorEl(null);
   };
 
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <Grid container spacing={6}>
-        <Grid item xs={12} sm={12}>
-          <h3>Send Email</h3>
-        </Grid>
-      </Grid>
-      <form action='Post'>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={4}>
-            <Typography color='textPrimary'>select csv file</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              type='file'
-              fullWidth
-              margin='dense'
-              id='csv-file' />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={6}>
-            <textarea
-              placeholder='Type to compose email'
-              rows={10}
-              cols={100} />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={6}>
-          <Grid item xs={12} >
-            <Button
-              variant='contained'
-              fullWidth>
-              Send
-               </Button>
-          </Grid>
-        </Grid>
-
-      </form>
-    </div>
-  );
+  const open = Boolean(anchorEl);
+  const id = open ? 'Certdealer' : undefined;
 
   return (
     <div>
-
       <List>
         <ListItem>
-          <Button type="button" style={{ color: 'white' }} onClick={handleOpen}>
+          <Button aria-describedby={id} variant="contained" color="primary" onClick={handleClick}>
             <EmailIcon />
           </Button>
         </ListItem>
       </List>
 
-      {/* <List>
-        <ListItem>
-          <Button type="button" style={{ color: 'white' }} onClick={handleOpen}>
-            <EmailIcon />
-          </Button>
-          <Certi />
-          </Button>
-        </ListItem>
-      </List> */}
-
-      <Modal
+      <Popover
+        id={id}
         open={open}
+        anchorEl={anchorEl}
         onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
       >
-        {body}
-      </Modal>
-    </div >
+        <Chip label='events' color="primary" variant="default" className={classes.typography} />
+        <Chip label='email' color="primary" variant="default" className={classes.typography} />
+        <Chip label='notification' color="primary" variant="default" className={classes.typography} />
+
+        <form action='Post'>
+          <Grid container >
+            <Grid item xs={12}>
+              <Typography className={classes.title}>select template</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <input
+                type='file'
+                id='cert' />
+            </Grid>
+          </Grid>
+          <hr />
+          <Grid container >
+            <Grid item xs={12}>
+              <Typography className={classes.title}>select csv file</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <input
+                type='file'
+                id='file' />
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12} >
+              <Button variant='contained' fullWidth className={classes.button} >Send</Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Popover>
+    </div>
   );
 }

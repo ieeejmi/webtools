@@ -1,92 +1,98 @@
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Popper, { PopperPlacementType } from '@material-ui/core/Popper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
-import { List, ListItem } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import Input from '@material-ui/core/Input';
 import Certi from '@material-ui/icons/Assignment';
-
+import { List, ListItem, Typography, Button, Chip, Grid, Popover } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: 500,
-    },
     typography: {
-      padding: theme.spacing(2),
+      margin: theme.spacing(2),
+      float: 'left',
     },
+    button: {
+      backgroundColor: 'green',
+    },
+    title: {
+      marginLeft: 13,
+      fontWeight: 'bold',
+      color: '#009688',
+      float: 'left',
+    }
   }),
 );
 
 export default function Certdealer() {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-  const [open, setOpen] = React.useState(false);
-  const [placement, setPlacement] = React.useState<PopperPlacementType>();
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (newPlacement: PopperPlacementType) => (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    setOpen((prev) => placement !== newPlacement || !prev);
-    setPlacement(newPlacement);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'Certdealer' : undefined;
+
   return (
-    <div className={classes.root}>
-      <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Paper>
-              <Typography className={classes.typography}>Automate Certificates</Typography>
-              <form action='Post'>
-                <Grid container spacing={5}>
-                  <Grid item xs={12} sm={3}>
-                    <Typography color='textPrimary'>Certificate</Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={9}>
-                    <Input
-                      type='file'
-                      fullWidth
-                      margin='dense'
-                      id='cert' />
-                  </Grid>
-                </Grid>
-
-                <Grid container spacing={5}>
-                  <Grid item xs={12} sm={3}>
-                    <Typography color='textPrimary'>CSV File</Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={9}>
-                    <Input
-                      type='file'
-                      fullWidth
-                      margin='dense'
-                      id='csv-file' />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={6}>
-                  <Grid item xs={12} >
-                    <Button variant='contained' fullWidth>Send</Button>
-                  </Grid>
-                </Grid>
-
-              </form>
-            </Paper>
-          </Fade>
-        )}
-      </Popper>
-
+    <div>
       <List>
         <ListItem>
-          <Button onClick={handleClick('right-end')} style={{ color: 'white' }} ><Certi/></Button>
+          <Button aria-describedby={id} variant="contained" color="primary" onClick={handleClick}>
+            <Certi />
+          </Button>
         </ListItem>
       </List>
 
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Chip label='certificates' color="primary" variant="default" className={classes.typography} />
+        <Chip label='automation' color="primary" variant="default" className={classes.typography} />
+        <form action='Post'>
+          <Grid container >
+            <Grid item xs={12}>
+              <Typography className={classes.title}>select template</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <input
+                type='file'
+                id='cert' />
+            </Grid>
+          </Grid>
+          <hr />
+          <Grid container >
+            <Grid item xs={12}>
+              <Typography className={classes.title}>select csv file</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <input
+                type='file'
+                id='file' />
+            </Grid>
+          </Grid>
+          <hr/>
+          <br/>
+          <Grid container>
+            <Grid item xs={12} >
+              <Button variant='contained' fullWidth className={classes.button} >Send</Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Popover>
     </div>
   );
 }

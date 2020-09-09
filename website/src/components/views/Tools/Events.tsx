@@ -1,56 +1,58 @@
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Popper, { PopperPlacementType } from '@material-ui/core/Popper';
+import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Fade from '@material-ui/core/Fade';
 import EventIcon from '@material-ui/icons/Event';
-import Paper from '@material-ui/core/Paper';
 import { List, ListItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: 500,
-    },
     typography: {
       padding: theme.spacing(2),
     },
   }),
 );
 
-export default function Events() {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-  const [open, setOpen] = React.useState(false);
-  const [placement, setPlacement] = React.useState<PopperPlacementType>();
-  const classes = useStyles();
 
-  const handleClick = (newPlacement: PopperPlacementType) => (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+export default function Events() {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    setOpen((prev) => placement !== newPlacement || !prev);
-    setPlacement(newPlacement);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   return (
-    <div className={classes.root}>
-      <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Paper>
-              <Typography className={classes.typography}>Yet to add event</Typography>
-            </Paper>
-          </Fade>
-        )}
-      </Popper>
-      
+    <div>
       <List>
         <ListItem>
-        <Button onClick={handleClick('right-end')} style={{ color: 'white' }} ><EventIcon/></Button>
+        <Button aria-describedby={id} variant="contained" color="primary" onClick={handleClick}><EventIcon /></Button>
         </ListItem>
       </List>
-
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Typography className={classes.typography}>Add Calender Events</Typography>
+      </Popover>
     </div>
   );
 }

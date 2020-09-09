@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 import Button from '@material-ui/core/Button';
@@ -83,4 +82,8 @@ class Login extends Component {
     );
   }
 }
+<<<<<<< HEAD
 export default Login
+=======
+export default Login
+>>>>>>> 27cbf9a352aaeb45e5e0131f033075724fd66e5f
