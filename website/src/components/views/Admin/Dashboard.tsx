@@ -9,7 +9,6 @@ import Email from '../Tools/Email'
 import Certdealer from '../Tools/Certdealer';
 import Events from '../Tools/Events';
 
-
 const drawerWidth = 80;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -124,11 +123,11 @@ export default function PersistentDrawerLeft() {
             {theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
         </div>
-        <Logout />
+        <Logout/>
         <Divider />
-        <Events />
-        <Certdealer />
         <Email />
+        <Certdealer />
+        <Events />
         <Divider />
       </Drawer>
       <main
